@@ -2,7 +2,7 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { Home } from './view/page/Home';
 import { Login } from './view/page/Login';
 import { Register } from './view/page/Register';
-import { Questions } from './view/page/Questions';
+import { MyQuestions } from './view/page/Questions/MyQuestions';
 
 
 export function Router() {
@@ -11,7 +11,7 @@ export function Router() {
       <Routes>
 
         <Route path="/" element={<Home />} />
-        <Route path='/questions' element={<Questions />} />
+        <Route path='/questions' element={<MyQuestions />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
 
