@@ -43,10 +43,10 @@ export function Register() {
 
       <div className="flex justify-center">
         <Form onHandleSubmit={handleSubmit}>
-          <Input value={name} type="name" name="name" placeholder="Nome" onHandleClick={setName} />
-          <Input value={email} type="email" name="email" placeholder="Email" onHandleClick={setEmail} />
-          <Input value={emailConfirmation} type="email" name="emailConfirmation" placeholder="Email" onHandleClick={setEmailConfirmation} />
-          <Input value={password} type="password" name="password" placeholder="senha" onHandleClick={setPassword} />
+          <Input value={name} type="name" name="name" placeholder="Nome" onHandleChange={setName} />
+          <Input value={email} type="email" name="email" placeholder="Email" onHandleChange={setEmail} />
+          <Input value={emailConfirmation} type="email" name="emailConfirmation" placeholder="Email" onHandleChange={setEmailConfirmation} />
+          <Input value={password} type="password" name="password" placeholder="senha" onHandleChange={setPassword} />
 
         </Form>
       </div>

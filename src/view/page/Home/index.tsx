@@ -1,51 +1,35 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useSanctum } from "react-sanctum";
+import { useEffect } from "react";
+import { httpClient } from "../../../app/services/httpClient";
+import { Header } from "../../components/Header";
+import { Link } from "react-router-dom";
 
-
-type UserProps = {
-  created_at: string;
-  email: string
-  id: number
-  name: string
-  updated_at: string
-}
 
 export function Home() {
-  const navigate = useNavigate();
-  const { user, signOut } = useSanctum<UserProps>();
 
 
-  async function handleLogout() {
-    await signOut();
-    // navigate('/login', { replace: true });
+
+  async function ListQuestion() {
+    const questions = await httpClient.get('/questions');
+    console.log(questions);
   }
 
+  useEffect(() => {
+    ListQuestion();
+  }, []);
+
+
   return (
-    <div className="bg-gray-900 w-full h-28 flex items-center justify-evenly">
-      {user && (
-        <div className="text-white flex flex-col">
-          <h1>{user.name}</h1>
-          <span>{user.email}</span>
-          <span>ID {user.id}</span>
-        </div>
-      )}
-      <nav className="text-gray-400 px-3">
-        <ul className="flex gap-8">
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/register">Register</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          {user && (
-            <li onClick={handleLogout} className="cursor-pointer">
-              Logout
-            </li>
-          )}
-        </ul>
-      </nav>
-    </div>)
+    <>
+      <Header />
+      <div className="flex flex-col ">
+        <Link to='/question-create' className="bg-blue-500 rounded-lg px-2 py-1 w-[120px] ml-4 mt-4 mb-10">
+          Criar pergunta
+        </Link>
+        <h1>Welcome to the Home Page</h1>
+        <p>This is where your content will be displayed.</p>
+      </div>
+
+    </>
+
+  )
 }
