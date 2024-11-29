@@ -1,7 +1,6 @@
 import { FormEvent, useState } from "react";
 import { Form } from "../../components/Form";
 import { Input } from "../../components/Input";
-import { httpClient } from "../../../app/services/httpClient";
 import { useNavigate } from "react-router-dom";
 import { useSanctum } from "react-sanctum";
 
@@ -42,8 +41,8 @@ export function Login() {
 
       <div className="flex justify-center">
         <Form onHandleSubmit={handleSubmit}>
-          <Input value={email} type="email" name="email" placeholder="Email" onHandleClick={setEmail} />
-          <Input value={password} type="password" name="password" placeholder="senha" onHandleClick={setPassword} />
+          <Input value={email} type="email" name="email" placeholder="Email" onHandleChange={setEmail} />
+          <Input value={password} type="password" name="password" placeholder="senha" onHandleChange={setPassword} />
 
         </Form>
       </div>
