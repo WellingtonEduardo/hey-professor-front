@@ -1,20 +1,37 @@
 import { FormEvent, useEffect, useState } from "react";
 import { httpClient } from "../../../../app/services/httpClient";
 import { FormQuestion } from "../components/FormQuestion";
+import { QuestionSession } from "../components/QuestionSession";
+import { Header } from "../../../components/Header";
 
 
 
+type QuestionProps = {
+  created_at: string
+  created_by: { id: number, name: string }
+  id: 1
+  question: string
+  status: string
+  updated_at: string
+  votes_sum_like: number
+  votes_sum_unlike: number
+}
 
 
 export function MyQuestions() {
   const [question, setQuestion] = useState('')
-  const [questions, setQuestions] = useState<any[]>([]);
+  const [questionsDraft, setQuestionsDraft] = useState<QuestionProps[]>([]);
+  const [questionsPublish, setQuestionsPublish] = useState<QuestionProps[]>([]);
+  const [questionsArchive, setQuestionsArchive] = useState<QuestionProps[]>([]);
 
   useEffect(() => {
     async function questionsAll() {
-      const response = await httpClient.get('/my-questions/draft');
-      setQuestions(response.data.data);
-
+      const responseDraft = await httpClient.get('/my-questions/draft');
+      setQuestionsDraft(responseDraft.data.data);
+      const responsePublish = await httpClient.get('/my-questions/published');
+      setQuestionsPublish(responsePublish.data.data);
+      const responseArchive = await httpClient.get('/my-questions/archived');
+      setQuestionsArchive(responseArchive.data.data);
 
     }
     questionsAll();
@@ -22,12 +39,40 @@ export function MyQuestions() {
   }, []);
 
 
+  async function handleDeleteQuestion(id: number) {
+    await httpClient.delete(`/questions/${id}`);
+    setQuestionsDraft(questionsDraft.filter(q => q.id !== id));
+    setQuestionsPublish(questionsPublish.filter(q => q.id !== id));
+  }
+
+  async function handleArchiveQuestion(id: number) {
+    await httpClient.delete(`/questions/${id}/archive`)
+    setQuestionsPublish(questionsPublish.filter(q => q.id !== id));
+    setQuestionsArchive([...questionsArchive, questionsPublish.find(q => q.id === id)!]);
+  }
+
+  async function handleRestoreQuestion(id: number) {
+    await httpClient.put(`/questions/${id}/restore`)
+    setQuestionsArchive(questionsArchive.filter(q => q.id !== id));
+    setQuestionsPublish([...questionsPublish, questionsArchive.find(q => q.id === id)!]);
+  }
+
+  async function handlePublishQuestion(id: number) {
+    await httpClient.put(`/questions/${id}/publish`)
+    setQuestionsDraft(questionsDraft.filter(q => q.id !== id));
+    setQuestionsPublish([...questionsPublish, questionsDraft.find(q => q.id === id)!]);
+  }
+
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    await httpClient.post('/questions', {
+    const response = await httpClient.post('/questions', {
       question
     });
+
+    setQuestionsDraft([...questionsDraft, response.data.data]);
+
+    setQuestion("");
 
   }
 
@@ -36,55 +81,51 @@ export function MyQuestions() {
   }
 
 
+
   return (
-    <div className="text-white">
-      <div className="bg-gray-900 py-5 px-3 mb-10">
-        <h1>My Questions</h1>
+    <>
+      <Header />
+      <hr className="border-gray-600" />
+      <div className="bg-gray-900 py-5 mb-10 text-gray-500">
+        <h1 className="px-9 w-3/4 m-auto font-bold text-xl">My Questions</h1>
       </div>
+      <div className="text-white w-3/4 m-auto">
 
-      <FormQuestion
-        question={question}
-        onHandleSubmit={handleSubmit}
-        onHandleChange={handleChange}
-      />
 
-      <hr className="border-dashed border-gray-600 my-8" />
+        <FormQuestion
+          question={question}
+          onHandleSubmit={handleSubmit}
+          onHandleChange={handleChange}
+        />
 
-      <div className="mx-10 rounded-lg">
-        <h2 className="text-gray-400 mb-3 ml-2 font-bold text-lg">Draft</h2>
-        <div className="flex justify-around bg-gray-600 py-3 rounded-lg mb-3">
-          <span className="w-[200px]">QUESTION</span>
-          <span>ACTION</span>
-        </div>
+        <hr className="border-dashed border-gray-600 mx-10 my-8  m-auto" />
 
-        <div>
+        <QuestionSession
+          title="DRAFTS"
+          questions={questionsDraft}
+          onHandleDelete={handleDeleteQuestion}
+          onHandleArchiveQuestion={handleArchiveQuestion}
+          onHandlePublishQuestion={handlePublishQuestion}
+        >
+          <hr className="border-dashed border-gray-600 my-8" />
+        </QuestionSession>
 
-          {questions.map(item => (
-            <>
-              <div className="flex justify-around items-center py-2">
-                <span className="w-[250px]">{item.question}</span>
+        <QuestionSession
+          title="MY QUESTIONS"
+          questions={questionsPublish}
+          onHandleDelete={handleDeleteQuestion}
+          onHandleArchiveQuestion={handleArchiveQuestion}
+        >
+          <hr className="border-dashed border-gray-600 my-8" />
+        </QuestionSession>
 
-                <div className="flex flex-col gap-4">
-                  <button className="bg-blue-600 px-2 py-1 rounded-md w-[100px]">
-                    Editar
-                  </button>
-
-                  <button className="bg-gray-900 px-2 py-1 rounded-md w-[100px]">
-                    Arquivar
-                  </button>
-
-                  <button className="bg-red-600 px-2 py-1 rounded-md w-[100px]">
-                    Excluir
-                  </button>
-                </div>
-              </div>
-              <hr className="border-dashed border-gray-600 my-8" />
-            </>
-          ))}
-        </div>
+        <QuestionSession
+          title="ARCHIVED QUESTIONS"
+          questions={questionsArchive}
+          onHandleRestoreQuestion={handleRestoreQuestion}
+        />
 
       </div>
-
-    </div>
+    </>
   );
 }
