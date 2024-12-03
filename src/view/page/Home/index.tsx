@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { httpClient } from "../../../app/services/httpClient";
 import { Header } from "../../components/Header";
+import { Questions } from "../../components/Questions";
 
 type QuestionProps = {
   created_at: string
@@ -41,26 +42,10 @@ export function Home() {
       <Header />
       <div className="flex flex-col px-10  items-center text-white">
 
-        <div className="flex flex-col w-3/4 gap-5">
-          {questions.map(item => (
-            <div key={item.id} className="flex justify-between bg-gray-900/20 border-b-2 border-gray-500 px-5 py-7">
-              <p className="w-[300px]">{item.question}</p>
-              <div className="space-y-4">
-                <p onClick={() => {
-                  handleVote(item.id, "like")
-                }} className="cursor-pointer" >
-                  ⬆ {item.votes_sum_like}
-                </p>
-                <p onClick={() => {
-                  handleVote(item.id, "unlike")
-                }} className="cursor-pointer">
-                  ⬇ {item.votes_sum_unlike}
-                </p>
-              </div>
-            </div>
-          ))}
-
-        </div>
+        <Questions
+          questions={questions}
+          onHandleVote={handleVote}
+        />
       </div>
 
 
