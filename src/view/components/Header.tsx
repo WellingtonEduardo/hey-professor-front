@@ -21,7 +21,7 @@ export function Header() {
     navigate('/login', { replace: true });
   }
   return (
-    <div className="bg-gray-900 w-full  flex flex-col items-center">
+    <div className="bg-gray-900 w-full  flex flex-col items-center mb-10">
 
       <nav className="text-gray-400 py-6 w-full">
         <ul className="flex justify-around w-full  ">
