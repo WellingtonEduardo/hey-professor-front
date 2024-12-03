@@ -2,6 +2,7 @@
 
 import { Link, useNavigate } from "react-router-dom";
 import { useSanctum } from "react-sanctum";
+import { Download } from "./Download";
 
 
 type UserProps = {
@@ -32,6 +33,7 @@ export function Header() {
             <li>
               <Link to="/login">Login</Link>
             </li>
+            <Download />
           </div>
           {user && (
             <li onClick={handleLogout} className="cursor-pointer">
