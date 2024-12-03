@@ -31,6 +31,10 @@ export function Home() {
   }, []);
 
 
+  const handleVote = async (id: number, vote: string) => {
+    await httpClient.post(`/questions/${id}/vote/${vote}`);
+    ListQuestion();
+  }
 
   return (
     <>
@@ -41,9 +45,17 @@ export function Home() {
           {questions.map(item => (
             <div key={item.id} className="flex justify-between bg-gray-900/20 border-b-2 border-gray-500 px-5 py-7">
               <p className="w-[300px]">{item.question}</p>
-              <div>
-                <p> ⬆ {item.votes_sum_like}</p>
-                <p> ⬇ {item.votes_sum_unlike}</p>
+              <div className="space-y-4">
+                <p onClick={() => {
+                  handleVote(item.id, "like")
+                }} className="cursor-pointer" >
+                  ⬆ {item.votes_sum_like}
+                </p>
+                <p onClick={() => {
+                  handleVote(item.id, "unlike")
+                }} className="cursor-pointer">
+                  ⬇ {item.votes_sum_unlike}
+                </p>
               </div>
             </div>
           ))}
