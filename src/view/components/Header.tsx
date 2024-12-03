@@ -27,12 +27,6 @@ export function Header() {
       <nav className="text-gray-400 py-6 w-full">
         <ul className="flex justify-around w-full  ">
           <div className="flex gap-8">
-            <li>
-              <Link to="/register">Register</Link>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
             <Download />
           </div>
           {user && (

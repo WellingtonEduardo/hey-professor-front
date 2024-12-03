@@ -55,7 +55,7 @@ export function Home() {
 
   return (
     <>
-      <Header />
+
       <div className="flex flex-col px-10  items-center text-white">
         <div className=" w-3/4 gap-3 flex justify-between mb-4">
           <input type="text" name="search" className=" py-2 px-2 rounded-lg flex-1 bg-gray-900 border-gray-600 border" onChange={(e) => {

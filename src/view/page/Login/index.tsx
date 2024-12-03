@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import { Form } from "../../components/Form";
 import { Input } from "../../components/Input";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSanctum } from "react-sanctum";
 
 
@@ -36,8 +36,8 @@ export function Login() {
 
   }
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="flex flex-col items-center gap-10 py-5">
+      <h1 className="font-bold text-2xl text-gray-400">Login</h1>
 
       <div className="flex justify-center">
         <Form onHandleSubmit={handleSubmit} titleButton="Login">
@@ -46,6 +46,7 @@ export function Login() {
 
         </Form>
       </div>
+      <Link className="cursor-pointer font-bold text-gray-400 hover:text-gray-300" to="/register">Se registrar</Link>
     </div>
   )
 }

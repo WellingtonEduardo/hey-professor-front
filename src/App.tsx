@@ -1,7 +1,8 @@
 
 import { Sanctum } from "react-sanctum";
-import { Router } from "./Route";
+
 import { httpClient } from "./app/services/httpClient";
+import { Router } from "./Router";
 
 const sanctumConfig = {
   apiUrl: "http://localhost:8000",

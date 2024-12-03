@@ -84,7 +84,7 @@ export function MyQuestions() {
 
   return (
     <>
-      <Header />
+
 
       <div className="text-white w-3/4 m-auto">
 
