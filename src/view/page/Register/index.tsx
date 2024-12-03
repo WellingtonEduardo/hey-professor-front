@@ -42,7 +42,7 @@ export function Register() {
       <h1>Register</h1>
 
       <div className="flex justify-center">
-        <Form onHandleSubmit={handleSubmit}>
+        <Form onHandleSubmit={handleSubmit} titleButton="Registrar">
           <Input value={name} type="name" name="name" placeholder="Nome" onHandleChange={setName} />
           <Input value={email} type="email" name="email" placeholder="Email" onHandleChange={setEmail} />
           <Input value={emailConfirmation} type="email" name="emailConfirmation" placeholder="Email" onHandleChange={setEmailConfirmation} />

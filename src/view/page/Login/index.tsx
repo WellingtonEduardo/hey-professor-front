@@ -40,7 +40,7 @@ export function Login() {
       <h1>Login</h1>
 
       <div className="flex justify-center">
-        <Form onHandleSubmit={handleSubmit}>
+        <Form onHandleSubmit={handleSubmit} titleButton="Login">
           <Input value={email} type="email" name="email" placeholder="Email" onHandleChange={setEmail} />
           <Input value={password} type="password" name="password" placeholder="senha" onHandleChange={setPassword} />
 

@@ -1,16 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { httpClient } from "../../../app/services/httpClient";
 import { Header } from "../../components/Header";
 import { Link } from "react-router-dom";
 
 
 export function Home() {
+  const [questions, setQuestions] = useState([])
 
 
 
   async function ListQuestion() {
-    const questions = await httpClient.get('/questions');
-    console.log(questions);
+    const response = await httpClient.get('/questions');
+
+    setQuestions(response.data.data);
   }
 
   useEffect(() => {

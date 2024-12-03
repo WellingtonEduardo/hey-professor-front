@@ -85,10 +85,7 @@ export function MyQuestions() {
   return (
     <>
       <Header />
-      <hr className="border-gray-600" />
-      <div className="bg-gray-900 py-5 mb-10 text-gray-500">
-        <h1 className="px-9 w-3/4 m-auto font-bold text-xl">My Questions</h1>
-      </div>
+
       <div className="text-white w-3/4 m-auto">
 
 
